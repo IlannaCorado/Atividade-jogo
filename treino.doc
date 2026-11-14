@@ -1,0 +1,77 @@
+Aluna: Ilanna Corado 
+Ra: 2649330 
+
+1. 
+409 – Conflict: nome da categoria repetido para o mesmo tipo.
+400 – Bad Request: tipo "poupanca" inválido.
+400 – Bad Request: parâmetros obrigatórios inicio e fim ausentes.
+401 – Unauthorized: senha incorreta.
+404 – Not Found: rota inexistente.
+201 – Created: lançamento criado com sucesso.
+
+2. 
+Problemas encontrados:
+
+- SQL Injection: o código utiliza template string para inserir os valores diretamente na consulta SQL.
+    Correção: utilizar parâmetros ?.
+
+- Falta de return: depois de enviar a resposta 404, o código continua executando e tenta enviar outra resposta.
+    Correção: adicionar return antes do res.status(404).
+
+- Resposta 204 indevida: se não houver registro para excluir, o código também tenta retornar 204.
+    Correção: garantir que o fluxo termine após o erro.
+
+3. 
+Dividindo R$ 250,00 em 7 parcelas:
+
+1ª parcela: R$ 35,74
+2ª parcela: R$ 35,71
+3ª parcela: R$ 35,71
+4ª parcela: R$ 35,71
+5ª parcela: R$ 35,71
+6ª parcela: R$ 35,71
+7ª parcela: R$ 35,71
+
+Conferência: R$ 35,74 + (6 × R$ 35,71) = R$ 250,00.
+
+4. 
+- Fechamento: dia 18.
+- Vencimento: dia 3.
+- Compra: 18/08/2026.
+- Valor de cada parcela: R$ 125,00.
+
+Como a compra foi realizada no dia do fechamento, a primeira parcela entra na fatura do mês seguinte.
+
+Parcela            1/2                    2/2
+
+Valor           R$ 125,00               R$ 125,00
+
+Fechamento      18/09/2026              18/11/2026
+
+Vencimento      03/10/2026              03/11/2026
+
+Referência       2026-10                  2026-11
+
+5.
+- Fechamento: dia 31.
+- Vencimento: dia 8.
+- Compra: 31/01/2026.
+- Valor de cada parcela: R$ 60,00.
+
+Obs: Como a compra foi feita no dia do fechamento, a primeira parcela entra na fatura seguinte. Fevereiro não possui dia 31, então o 
+fechamento será ajustado para o último dia do mês: 28/02/2026.
+
+Parcela            1/2                    2/2
+
+Valor           R$ 66,00               R$ 66,00
+
+Fechamento      28/02/2026            31/03/2026
+
+Vencimento      08/03/2026            08/04/2026
+
+Referência       2026-03                2026-04
+
+6. 
+O SELECT verifica se já existe um e-mail ou CPF cadastrado, mas duas requisições podem acontecer ao mesmo tempo e ambas passar pela verificação. 
+O UNIQUE garante que não existam registros duplicados, mesmo em situações de concorrência. Assim, o banco protege a integridade dos dados. 
+Se houver duplicidade, o banco retorna um erro que deve ser tratado pela aplicação como 409 – Conflict.
